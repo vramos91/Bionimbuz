@@ -16,12 +16,14 @@ import static br.unb.cic.bionimbus.plugin.PluginFactory.getPlugin;
 import br.unb.cic.bionimbus.plugin.PluginInfo;
 import br.unb.cic.bionimbus.plugin.linux.LinuxGetInfo;
 import br.unb.cic.bionimbus.plugin.linux.LinuxPlugin;
+import br.unb.cic.bionimbus.rest.RestServer;
 import br.unb.cic.bionimbus.toSort.Listeners;
 
 import static com.google.inject.Guice.createInjector;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Level;
 
 public class BioNimbus {
 
@@ -68,12 +70,17 @@ public class BioNimbus {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        final String configFile = System.getProperty("config.file", "conf/node.yaml");
-        BioNimbusConfig config = loadHostConfig(configFile);
-
-        LOGGER.debug("config = " + config);
-
-        new BioNimbus(config);
+        try {
+//        final String configFile = System.getProperty("config.file", "conf/node.yaml");
+//        BioNimbusConfig config = loadHostConfig(configFile);
+//        LOGGER.debug("config = " + config);       
+//        new BioNimbus(config);
+            
+            new RestServer().start();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            java.util.logging.Logger.getLogger(BioNimbus.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

@@ -53,13 +53,19 @@ public class BioProtoImpl implements BioProto {
         this.zkService =  zkservice;
     }
 
+    /**
+     *  TO DO: Essa função provavelmente sera retirada ou modificada, pois está funcionando apenas para o cliente 
+     * @return
+     * @throws AvroRemoteException 
+     */
     @Override
     public boolean ping() throws AvroRemoteException {
         return true;
     }
     
     /**
-     * Retorna o status do job solicitado.
+     * Retorna o status do job solicitado. Classe sendo utilizada somente pelo parte Cliente
+     * Chamadas de classes do núcleo: StorageService e ZkService
      * @param jobId id do job que deve ser consultado
      * @return string com o status do job
      * @throws AvroRemoteException 
@@ -95,7 +101,8 @@ public class BioProtoImpl implements BioProto {
     }
 
     /**
-     * Retorna o status de todos os jobs existentes.
+     * Retorna o status de todos os jobs existentes. Classe sendo utilizada somente pelo parte Cliente.
+     * Chamadas de classes do núcleo: StorageService e ZkService
      * @return string com o status de todos os jobs
      * @throws AvroRemoteException 
      */
@@ -147,6 +154,7 @@ public class BioProtoImpl implements BioProto {
     
     /**
      * Retorna uma lista com o nome dos arquivos pertencentes a toda a federação.
+     * Chamadas de classes do núcleo: StorageService
      * @return lista com nome dos arquivos
      * @throws AvroRemoteException 
      */
@@ -166,7 +174,7 @@ public class BioProtoImpl implements BioProto {
     }
     
     /**
-     * 
+     * Chamadas de classes do núcleo: StorageService e DiscoveryService
      * @return
      * @throws AvroRemoteException 
      */
