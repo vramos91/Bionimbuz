@@ -37,7 +37,7 @@ public class Connect implements Command {
         }
         
         shell.setRpcClient(rpcClient);
-
+    
         
         shell.setConnected(true);
 

@@ -1,20 +1,16 @@
 package br.unb.cic.bionimbus.client.shell.commands;
 
-import br.unb.cic.bionimbus.avro.gen.NodeInfo;
 import br.unb.cic.bionimbus.avro.gen.FileInfo;
-
-
-
-import java.io.File;
-
+import br.unb.cic.bionimbus.avro.gen.NodeInfo;
 import br.unb.cic.bionimbus.client.shell.Command;
 import br.unb.cic.bionimbus.client.shell.SimpleShell;
+import br.unb.cic.bionimbus.services.security.entities.Arquivo;
 import br.unb.cic.bionimbus.services.storage.Ping;
 import br.unb.cic.bionimbus.utils.Nmap;
 import br.unb.cic.bionimbus.utils.Put;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import java.util.List;
 
 public class Upload implements Command {
@@ -38,6 +34,8 @@ public class Upload implements Command {
 
         File file = new File(params[0]);
         if (file.exists()){
+            
+         
 
             FileInfo info = new FileInfo();
             String path = file.getPath();
@@ -85,6 +83,7 @@ public class Upload implements Command {
                      * Tenta enviar o arquivo a partir do melhor peer que está na lista
                      */
                     Put conexao = new Put(node.getAddress(), path);
+                    System.out.println(node.getAddress() + path);
                     if (conexao.startSession()) {
                         no = node;
                     }
@@ -98,6 +97,9 @@ public class Upload implements Command {
                      * os dados do arquivo que foi upado.
                      */
                     shell.getRpcClient().getProxy().fileSent(info, dest);
+                    
+                    Arquivo novo = new Arquivo(file);
+                    
                     return "\n Upload Completed!!";
                 }
             

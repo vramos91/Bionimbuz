@@ -8,6 +8,7 @@ import java.util.*;
 import br.unb.cic.bionimbus.avro.gen.BioProto;
 import br.unb.cic.bionimbus.avro.rpc.RpcClient;
 import br.unb.cic.bionimbus.client.shell.commands.*;
+import br.unb.cic.bionimbus.services.security.Interface;
 import br.unb.cic.bionimbus.utils.Pair;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,11 +73,13 @@ public final class SimpleShell {
     }
 
     public RpcClient getRpcClient() {
+        System.out.println("entrou no getrpcclient");
         return rpcClient;
     }
 
     public static void main(String[] args) throws IOException {
-        new SimpleShell().readEvalPrintLoop();
+       Interface inicio = new Interface();
+        inicio.iniciar();
     }
 
     public void print(String message) {
@@ -84,7 +87,7 @@ public final class SimpleShell {
         System.out.print(PROMPT);
     }
 
-    private void readEvalPrintLoop() throws IOException {
+    public void readEvalPrintLoop() throws IOException {
 
         System.out.println(GREETINGS);
         while (true) {
