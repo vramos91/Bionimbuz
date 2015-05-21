@@ -10,6 +10,7 @@ import br.unb.cic.bionimbus.services.security.PDP;
 import br.unb.cic.bionimbus.services.security.PolicyManager;
 import br.unb.cic.bionimbus.services.security.attribute.AtributoArquivo;
 import br.unb.cic.bionimbus.services.security.utilities.Database;
+import br.unb.cic.bionimbus.services.security.utilities.Session;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
@@ -59,7 +60,7 @@ public class Arquivo {
         return id;
     }
     
-    private void configura(){
+    private void configura(File arq){
     
         this.getId(this.getNome());
         
@@ -67,6 +68,16 @@ public class Arquivo {
         atributo.getId("tipo");
         atributo.setValor("aberto");
         atributo.cadastraAtributoNoArquivo(this, atributo);
+        
+        atributo.getId("tamanho");
+        atributo.setValor(Long.toString(arq.length()));
+        atributo.cadastraAtributoNoArquivo(this, atributo);
+        
+        atributo.getId("proprietario");
+        Session sessao = Session.getInstance();
+        atributo.setValor(sessao.getNome());
+        atributo.cadastraAtributoNoArquivo(this, atributo);
+        
     
     }
     private void cadastraArquivo(File arq){
@@ -77,7 +88,7 @@ public class Arquivo {
         Database inserir = new Database();
         inserir.insereArquivo(novoArquivo);
         
-        novoArquivo.configura();
+        novoArquivo.configura(arq);
         
         PDP autorizacao = new PDP();
         autorizacao.atualizaArquivosUsuarios();
