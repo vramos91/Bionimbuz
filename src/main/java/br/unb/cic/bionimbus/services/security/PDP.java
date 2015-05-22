@@ -14,12 +14,30 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-/**
+/** Classe responsável pela tomada de decisão (Policy Decision Point) quanto 
+ * à autorização de acesso dos usuários a um determinado objeto.
+ * 
+ * Todo objeto do sistema que algum usuário deseje acessar deve passar por esta 
+ * classe previamente.
  *
- * @author heitor
+ * @author Heitor Henrique
  */
 public class PDP {
 
+    /**Método que verifica os arquivos que um usuário pode acessar, utilizando 
+     * para isto as regras vinculadas a ele.
+     * Um usuário deve ser passado para este método, que irá localizar todas
+     * as regras referentes a este usuário, e então, verificar quais arquivos
+     * comtemplam as regras.
+     * 
+     * Obs: algoritmo bastante complexo que trabalha com união e intersecção de
+     * conjuntos de arquivos, através dos métodos retainAll e addAll do Hashset
+     * do java.
+     *
+     * @param usr Objeto do tipo {@link Usuario} para que sejam buscadas as 
+     * regras referentes a ele.
+     * @throws SQLException
+     */
     public void verificaArquivos(Usuario usr ) throws SQLException {
 
         List<PolicyManager> regras;
@@ -30,11 +48,8 @@ public class PDP {
         Integer flag = 0;
         Integer i;
         
-
         regras = usr.obterRegrasSQL();
         
-        
-
         Database db = new Database();
         db.getConnection2();
 
@@ -107,6 +122,20 @@ public class PDP {
         db.closeConnnection2();
     }
 
+    /**Método que verifica um usuário tem permissão para ver determinado arquivo.
+     * 
+     * Esse método é chamado para cada arquivo encontrado pelo método 
+     * {@link PDP#verificaArquivos(Usuario)} com o intuito de verificar se 
+     * o usuário também está presente nas regras do arquivo em questão.
+     *
+     * @param reg lista de regras de um determinado arquivo
+     * @param db instância do banco de dados já iniciada
+     * @param usr Objeto {@link Usuario} ao qual se pretende verificar se ele
+     * se encontra na lista de usuários que pode ver determinado arquivo.
+     * @return true se o usuário estiver nas regras do arquivo e false caso 
+     * contrário.
+     * @throws SQLException
+     */
     public boolean verificaUsuario(List<PolicyManager> reg, Database db, Usuario usr) throws SQLException {
 
         String query;
@@ -179,6 +208,16 @@ public class PDP {
         return false;
     }
     
+    /**Método que retorna a lista de arquivos que um determinado usuário
+     * acessar.
+     * 
+     * Este método faz uma busca na cache, que se encontra em uma tabela
+     * do banco e retorna todos os arquivos que o usuário pode acessar. O 
+     * usuário atualmente logado é descoberto através da {@link Session} 
+     * que foi instanciada no momento do login.
+     *
+     * @return Lista de arquivos que o usuário está autorizado a acessar.
+     */
     public List<Arquivo> mostraArquivos() {
         List<Arquivo> arquivos;
         

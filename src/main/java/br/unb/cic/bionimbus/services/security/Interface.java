@@ -21,7 +21,7 @@ import java.util.Scanner;
  * e atributos. É possíve criar, editar, excluir os objetos do sistema.
  * 
  * 
- * @author heitor
+ * @author Heitor Henrique
  */
 public class Interface {
     
@@ -72,7 +72,7 @@ public class Interface {
      * com esse mesmo nome, ele é cadastrado com sucesso.
      *
      */
-    public void cadastrarUsuario() {
+    private void cadastrarUsuario() {
         
         String nome;
         String senha;
@@ -104,7 +104,7 @@ public class Interface {
      * e então ele será cadastrado.
      *
      */
-    public void insereAtributo(){
+    private void insereAtributo(){
         
         String nome;
         String tipo;
@@ -129,7 +129,7 @@ public class Interface {
      *     a.extensao = html (arquivos cuja extensao seja html)
      *
      */
-    public void novaRegra(){
+    private void novaRegra(){
     
         String regra;
         Scanner entrada = new Scanner(System.in);
@@ -154,7 +154,7 @@ public class Interface {
      * {@link AtributoUsuario#cadastraAtributoUsuario(Usuario,AtributoUsuario)}
      *
      */
-    public void insereAtributoNaPessoa(){
+    private void insereAtributoNaPessoa(){
         
         List<Usuario> todos;
         List<AtributoUsuario> todosAtt;
@@ -211,7 +211,7 @@ public class Interface {
      * Os valores são passados a um objeto {@link PolicyManager} que contém o
      * método {@link PolicyManager#atribuiRegraUsr(Usuario, PolicyManager) }
      */
-    public void atribuiRegraUsr(){
+    private void atribuiRegraUsr(){
         
         List<Usuario> todos;
         List<PolicyManager> todasRegras;
@@ -265,7 +265,7 @@ public class Interface {
      * Os valores são passados a um objeto {@link PolicyManager} que contém o
      * método {@link PolicyManager#atribuiRegraUsr(Usuario, PolicyManager) }
      */
-    public void atribuiRegraArq(){
+    private void atribuiRegraArq(){
     
         Scanner entrada = new Scanner(System.in);
         List<Arquivo> listaArq;
@@ -316,7 +316,7 @@ public class Interface {
      * A lista então é iterada e mostrada na tela.
      *
      */
-    public void verTodosArq(){
+    private void verTodosArq(){
         
         List<Arquivo> arquivos;
         
@@ -336,7 +336,7 @@ public class Interface {
      * 
      *
      */
-    public void deletaUsuario(){
+    private void deletaUsuario(){
         
         List<Usuario> todos;
         Scanner entrada = new Scanner(System.in);
@@ -371,7 +371,7 @@ public class Interface {
      * 
      *
      */
-    public void deletaRegra(){
+    private void deletaRegra(){
         
         List<PolicyManager> todasRegras;
         Scanner entrada = new Scanner(System.in);
@@ -404,7 +404,7 @@ public class Interface {
      *
      */
     
-    public void deletaAttUsuario(){
+    private void deletaAttUsuario(){
         
         List<AtributoUsuario> todosAtt;
         Scanner entrada = new Scanner(System.in);
@@ -438,7 +438,7 @@ public class Interface {
      * 
      */
     
-    public void deletaAttArquivo(){
+    private void deletaAttArquivo(){
         
         Scanner entrada = new Scanner(System.in);
         List<AtributoArquivo> listaAtt;
@@ -476,7 +476,7 @@ public class Interface {
      * serem adicionados.
      *
      */
-    public void alteraAttUsr() {
+    private void alteraAttUsr() {
         
         List<Usuario> todos;
         List<AtributoUsuario> todosAtt;
@@ -537,7 +537,7 @@ public class Interface {
      *
      */
     
-    public void alteraAttArq(){
+    private void alteraAttArq(){
     
         Scanner entrada = new Scanner(System.in);
         List<Arquivo> listaArq;
@@ -594,7 +594,7 @@ public class Interface {
      *
      */
     
-    public void insereAtributoDeArquivo(){
+    private void insereAtributoDeArquivo(){
         
         String nome;
         
@@ -621,7 +621,7 @@ public class Interface {
      *
      */
     
-    public void cadastrarAtributoArquivo(){
+    private void cadastrarAtributoArquivo(){
             
         Scanner entrada = new Scanner(System.in);
         List<Arquivo> listaArq;
@@ -678,7 +678,7 @@ public class Interface {
      * passando um objeto {@link Usuario} que contém o id do usuário ecolhido.
      *
      */
-    public void retirarRegraUsr(){
+    private void retirarRegraUsr(){
         
         List<Usuario> todos;
         List<PolicyManager> regras;
@@ -719,7 +719,15 @@ public class Interface {
         
     }
     
-    public void retirarRegraArq(){
+   /** Método para retirar uma regra que estava associada a um arquivo.
+     *  Uma lista de arquivos é apresentada e um deles deve ser escolhido.
+     *  A regra a ser retirada deve ser escolhida dentre todas da lista.
+     *  Um objeto {@link PolicyManager} é setado com o número da regra e o
+     * método {@link PolicyManager#removeRegraArq(Arquivo) } é chamado,
+     * passando um objeto {@link Arquivo} que contém o id do usuário ecolhido.
+     *
+     */
+    private void retirarRegraArq(){
         
         Scanner entrada = new Scanner(System.in);
         PolicyManager regra = new PolicyManager();
@@ -759,7 +767,12 @@ public class Interface {
         
     }
     
-    public void painelAdm(){
+    /** Método que apresenta o painel de gerenciamento do administrador.
+     * Aqui são mostradas as 3 principais classes de menu: Usuários, 
+     * Atributos e políticas e Arquivos.
+     *
+     */
+    private void painelAdm(){
     
         Scanner entrada = new Scanner(System.in);
         boolean continua = true;
@@ -798,8 +811,14 @@ public class Interface {
         }
     }
     
+    /** Método que apresenta o painel de gerenciamento de usuários.
+     * Aqui são mostradas as opções que o administrador dispõe para gerenciar
+     * os usuários, que são : cadastro, definição de atributos, associação
+     * de regras, retirada de regras, exclusão de usuário e alteração de 
+     * atributo.
+     */
     
-    public void painelUsr(){
+    private void painelUsr(){
         
         Scanner entrada = new Scanner(System.in);
         boolean continua = true;
@@ -850,7 +869,12 @@ public class Interface {
         }
     }
     
-    public void painelPoliticas(){
+    /** Método que apresenta o painel de gerenciamento de políticas.
+     * Aqui são mostradas as opções que o administrador dispõe para gerenciar
+     * as políticas e atributos.
+     */
+    
+    private void painelPoliticas(){
     
         Scanner entrada = new Scanner(System.in);
         boolean continua = true;
@@ -903,7 +927,13 @@ public class Interface {
     
     }
     
-    public void painelArquivos(){
+     /** Método que apresenta o painel de gerenciamento de arquivos.
+     * Aqui são mostradas as opções que o administrador dispõe para gerenciar
+     * os arquivos.
+     */
+    
+    
+    private void painelArquivos(){
     
         Scanner entrada = new Scanner(System.in);
         boolean continua = true;
@@ -948,7 +978,7 @@ public class Interface {
     
     }
     
-    public void telaInicial() {
+    private void telaInicial() {
         
         Scanner entrada = new Scanner(System.in);
         
