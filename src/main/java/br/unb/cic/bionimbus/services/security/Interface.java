@@ -7,7 +7,6 @@
 package br.unb.cic.bionimbus.services.security;
 
 import br.unb.cic.bionimbus.client.shell.SimpleShell;
-import br.unb.cic.bionimbus.services.security.utilities.Session;
 import br.unb.cic.bionimbus.services.security.attribute.Atributo;
 import br.unb.cic.bionimbus.services.security.attribute.AtributoArquivo;
 import br.unb.cic.bionimbus.services.security.attribute.AtributoUsuario;
@@ -17,12 +16,23 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- *
+/** Classe que contém os métodos da interface de gerência do administrador. 
+ * Contém todas as opções para o gerenciamento de usuários, arquivos, políticas
+ * e atributos. É possíve criar, editar, excluir os objetos do sistema.
+ * 
+ * 
  * @author heitor
  */
 public class Interface {
     
+    /** Método inicial que pede o usuário e senha para a realização do login.
+     * Os valores digitados são passados para o objeto de {@link Login} 
+     * que irá verificar se as credenciais são válidas através do método 
+     * {@link Login#efetuaLogin(Usuario)}.
+     *
+     * @throws IOException Exceção pode ser lançada por algum problema 
+     * no I/O.
+     */
     public void iniciar() throws IOException {
         
         String nome;
@@ -55,8 +65,13 @@ public class Interface {
         }  
     }
     
-   
-    
+    /** Método responsável pelo cadastro de usuários. 
+     * Um usuário e senha devem ser passados pela entrada padrão (teclado).
+     * Os valores são passados a um objeto {@link Usuario}, que contém o método 
+     * {@link Usuario#cadastraUsuario(Usuario)}, e caso não exista um usuário
+     * com esse mesmo nome, ele é cadastrado com sucesso.
+     *
+     */
     public void cadastrarUsuario() {
         
         String nome;
@@ -82,6 +97,13 @@ public class Interface {
         
     }
     
+    /** Método para a criação de um atributo de usuário.
+     * Um determinado atributo de usuário deve ser passado pela entrada padrão
+     * e os valores são passados a um objeto {@link AtributoUsuario} 
+     * que contém o método {@link AtributoUsuario#cadastrarAtributo(Atributo)} 
+     * e então ele será cadastrado.
+     *
+     */
     public void insereAtributo(){
         
         String nome;
@@ -97,6 +119,16 @@ public class Interface {
     
     }
     
+    /** Método para a criação de uma nova regra.
+     * A regra de pertencer ao padrão estabelecidado e os valores são passados
+     * a um objeto {@link PolicyManager} que contém o método 
+     * {@link PolicyManager#criaRegra(String)}.
+     * <br>
+     * Ex: u.local = UnB (usuarios cujo atributo local seja UnB)
+     * <br>
+     *     a.extensao = html (arquivos cuja extensao seja html)
+     *
+     */
     public void novaRegra(){
     
         String regra;
@@ -109,6 +141,19 @@ public class Interface {
     
     }
     
+    /** Método para atribuir um atributo a uma determinada pessoa.
+     * Uma lista com todos usuário será apresentada e o número dele deve ser
+     * digitado.
+     * A seguir uma lista com todos atributos é apresentada e o número do
+     * atributo desejado deve ser digitado.
+     * A seguir deve ser digitado o valor do atributo desejado para aquele 
+     * usuário.
+     * 
+     * Os valores são passados a um objeto {@link AtributoUsuario} que possui
+     * um método 
+     * {@link AtributoUsuario#cadastraAtributoUsuario(Usuario,AtributoUsuario)}
+     *
+     */
     public void insereAtributoNaPessoa(){
         
         List<Usuario> todos;
@@ -157,6 +202,15 @@ public class Interface {
         att.cadastraAtributoUsuario(all,att);
     }
     
+    /** Método para atribuir uma regra a um usuário.
+     * Uma lista com todos usuário será apresentada e o número do escolhido
+     * deve ser digitado.
+     * A seguir uma lista com todas regras é apresentada e o número da
+     * regra desejada deve ser digitado.
+     * 
+     * Os valores são passados a um objeto {@link PolicyManager} que contém o
+     * método {@link PolicyManager#atribuiRegraUsr(Usuario, PolicyManager) }
+     */
     public void atribuiRegraUsr(){
         
         List<Usuario> todos;
@@ -202,6 +256,15 @@ public class Interface {
     
     }
     
+    /** Método para atribuir uma regra a um arquivo.
+     * Uma lista com todos arquivos será apresentada e o número do escolhido
+     * deve ser digitado.
+     * A seguir uma lista com todas regras é apresentada e o número da
+     * regra desejada deve ser digitado.
+     * 
+     * Os valores são passados a um objeto {@link PolicyManager} que contém o
+     * método {@link PolicyManager#atribuiRegraUsr(Usuario, PolicyManager) }
+     */
     public void atribuiRegraArq(){
     
         Scanner entrada = new Scanner(System.in);
@@ -246,12 +309,18 @@ public class Interface {
     
     }
     
+    /** Método para a listagem dos arquivos de cada usuário.
+     * Um objeto {@link PDP} é utitilizado para chamar o método 
+     * {@link PDP#mostraArquivos()} que retorna uma lista de arquivos que o
+     * usuário atualmente logado pode ver.
+     * A lista então é iterada e mostrada na tela.
+     *
+     */
     public void verTodosArq(){
         
         List<Arquivo> arquivos;
         
         PDP autorizacao = new PDP();
-        Session sessao = Session.getInstance();
         
         arquivos = autorizacao.mostraArquivos();
         
@@ -260,6 +329,13 @@ public class Interface {
         }
     }
     
+    /** Método para excluir um usuário.
+     * Uma lista de usuários é apresentada e o número do usuário escolhido
+     * é repassado a um objeto {@link Usuario} que possui o método
+     * {@link Usuario#deletaUsuario()} que efetua a exclusao.
+     * 
+     *
+     */
     public void deletaUsuario(){
         
         List<Usuario> todos;
@@ -287,6 +363,14 @@ public class Interface {
     
     
     }
+
+    /** Método para excluir uma regra.
+     * Uma lista de regras é apresentada e o número da regra escolhida
+     * é repassada a um objeto {@link PolicyManager} que possui o método
+     * {@link PolicyManager#deletaRegra() } que efetua a exclusao.
+     * 
+     *
+     */
     public void deletaRegra(){
         
         List<PolicyManager> todasRegras;
@@ -311,6 +395,14 @@ public class Interface {
         regras.deletaRegra();
     
     }
+    
+    /** Método para excluir um atributo de usuário.
+     * Uma lista de atributos de usuário é apresentada e o número do atributo
+     * escolhido é repassado a um objeto {@link AtributoUsuario} que contém o 
+     * método {@link AtributoUsuario#deletaAtributo()  } que efetua a exclusao.
+     * 
+     *
+     */
     
     public void deletaAttUsuario(){
         
@@ -339,6 +431,13 @@ public class Interface {
     
     }
     
+    /** Método para excluir um atributo de arquivo.
+     * Uma lista de atributos de arquivo é apresentada e o número do atributo
+     * escolhido é repassado a um objeto {@link AtributoArquivo} que contém o 
+     * método {@link AtributoArquivo#deletaAtributo()  } que efetua a exclusao.
+     * 
+     */
+    
     public void deletaAttArquivo(){
         
         Scanner entrada = new Scanner(System.in);
@@ -365,6 +464,18 @@ public class Interface {
     
     }
     
+    /** Método para alterar o valor de algum atributo já definido de usuário.
+     * Uma lista de usuários é apresentada e o número do escolhido deve ser 
+     * digitado. Em seguida uma lista de atributos deste usuário é apresentado
+     * e novamente o escolhido deve ser digitado. O novo valor para o atributo
+     * escolhido deve então ser digitado.
+     * 
+     * O objeto usuário que contém o id do usuário a ser deletado é mandado para
+     * o método {@link AtributoUsuario#alteraAtributoUsuario(Usuario)} chamado
+     * por um objeto {@link AtributoUsuario} já setado com os novos valores a 
+     * serem adicionados.
+     *
+     */
     public void alteraAttUsr() {
         
         List<Usuario> todos;
@@ -413,6 +524,19 @@ public class Interface {
         
     }
     
+    /** Método para alterar o valor de algum atributo já definido de arquivo.
+     * Uma lista de arquivos é apresentada e o número do escolhido deve ser 
+     * digitado. Em seguida uma lista de atributos deste arquivo é apresentado
+     * e novamente o escolhido deve ser digitado. O novo valor para o atributo
+     * escolhido deve então ser digitado.
+     * 
+     * O objeto arquivo que contém o id do arquivo a ser deletado é mandado para
+     * o método {@link AtributoArquivo#alteraAtributoNoArquivo(Arquivo)} chamado
+     * por um objeto {@link AtributoArquivo} já setado com os novos valores a 
+     * serem adicionados.
+     *
+     */
+    
     public void alteraAttArq(){
     
         Scanner entrada = new Scanner(System.in);
@@ -459,9 +583,16 @@ public class Interface {
         att.setValor(valorAtt);
 
         att.alteraAtributoNoArquivo(arq);
-        
-        
+         
     }
+    
+    /** Método para a criação de um atributo de arquivo.
+     * Um determinado atributo de arquivo deve ser passado pela entrada padrão
+     * e os valores são passados a um objeto {@link AtributoArquivo} 
+     * que contém o método {@link AtributoArquivo#cadastrarAtributo(Atributo)} 
+     * e então ele será cadastrado.
+     *
+     */
     
     public void insereAtributoDeArquivo(){
         
@@ -474,8 +605,21 @@ public class Interface {
         AtributoArquivo novo = new AtributoArquivo();
         novo.setNome(nome);
         novo.cadastrarAtributo(novo);
-    
     }
+    
+    /** Método para atribuir um atributo a um determinado arquivo.
+     * Uma lista com todos arquivos será apresentada e o número dele deve ser
+     * digitado.
+     * A seguir uma lista com todos atributos é apresentada e o número do
+     * atributo desejado deve ser digitado.
+     * A seguir deve ser digitado o valor do atributo desejado para aquele 
+     * arquivo.
+     * 
+     * Os valores são passados a um objeto {@link AtributoArquivo} que possui
+     * um método 
+     * {@link AtributoArquivo#cadastraAtributoNoArquivo(Arquivo,AtributoArquivo}
+     *
+     */
     
     public void cadastrarAtributoArquivo(){
             
@@ -526,6 +670,14 @@ public class Interface {
         
     }
     
+    /** Método para retirar uma regra que estava associada a um usuário.
+     *  Uma lista de usuários é apresentada e um deles deve ser escolhido.
+     *  A regra a ser retirada deve ser escolhida dentre todas da lista.
+     *  Um objeto {@link PolicyManager} é setado com o número da regra e o
+     * método {@link PolicyManager#removeRegraUsr(Usuario)} é chamado,
+     * passando um objeto {@link Usuario} que contém o id do usuário ecolhido.
+     *
+     */
     public void retirarRegraUsr(){
         
         List<Usuario> todos;
