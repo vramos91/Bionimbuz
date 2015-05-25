@@ -228,6 +228,12 @@ public class PDP {
         return arquivos;
     }
     
+    /**Método que atualiza a cache com os arquivos que os usuários podem acessar.
+     * O método {@link PDP#mostraArquivos()} apenas pesquisa os arquivos na 
+     * cache. Já este método é o responsável por atualizar a cache sempre
+     * que ela esteja inconsistente, e isto é feito para todos usuários.
+     *
+     */
     public void atualizaArquivosUsuarios(){
         List<Usuario> lista; 
         

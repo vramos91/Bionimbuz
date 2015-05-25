@@ -6,9 +6,17 @@
 
 package br.unb.cic.bionimbus.services.security.attribute;
 
-/**
+/**Classe abstrata que contém os métodos de gerenciamento dos atributos do
+ * sistema. Atributos são características que são associadas aos objetos 
+ * do sistema, e podem ser agrupadas em grupos maiores.
+ * 
+ * As classes que extendem atualmente são {@link AtributoArquivo} 
+ * e {@link AtributoUsuario}.  Quaisquer outros tipos de atributos que possam
+ * vir a ser adicionados no futuro devem também extender esta classe. Todo
+ * atributo possui um nome, valor, tipo e id. 
+ * 
  *
- * @author heitor
+ * @author Heitor Henrique
  */
 public abstract class Atributo {
     
@@ -43,11 +51,22 @@ public abstract class Atributo {
         this.id = id;
     }
     
+    /**Método abstrato para o cadastro de atributos. Tanto atributos de usuário
+     * como atributos de arquivo, ou quaisquer outros atributos futuros, devem
+     * implementar este método para que os atributos sejam cadastrados 
+     * em suas devidas tabelas corretamente.
+     *
+     * @param att Atributo que será cadastrado no banco. 
+     */
     public abstract void cadastrarAtributo (Atributo att);
     
        
 
-    /**
+    /**Método que verifica se um determinado atributo existe, ou seja, se ele
+     * já foi previamente cadastrado.
+     * 
+     * Cada classe deve implementar a sua própria verificação de atributo, 
+     * pois eles são cadastrados em tabelas diferentes no banco de dados.
      *
      * @return
      */

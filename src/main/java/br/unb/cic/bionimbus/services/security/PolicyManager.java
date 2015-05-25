@@ -14,9 +14,13 @@ import br.unb.cic.bionimbus.services.security.entities.Usuario;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
+/** Classe que gerencia a criação e manutenção de todas as políticas do sistema.
+ * Ela contém os métodos utilizados para a criação de todas as políticas, 
+ * seguindo os padrões que serão melhores descritos nos métodos apropriados.
+ * Bom lembrar que apenas o administrador deve ter acesso a esta classe,
+ * pois não queremos que usuários modifiquem as regras.
  *
- * @author heitor
+ * @author Heitor Henrique
  */
 public class PolicyManager {
 
@@ -41,7 +45,13 @@ public class PolicyManager {
         return id;
     }
     
-  
+    /**Métodos que retorna todas as regras atualmente criadas no sistema. 
+     * Para isto, é feita uma pesquisa no banco de dados que retorna todas
+     * as regras constantes na tabela 'regras' presente no banco de dados.
+     *
+     * @return List-PolicyManager- Lista de todas as regras que foram criadas
+     * no sistema.
+     */
     public List<PolicyManager> selectRegras() {
 
         List<PolicyManager> todasRegras = null;
@@ -55,6 +65,14 @@ public class PolicyManager {
 
     }
 
+    /**Método que atribui uma determinada regra a um determinado usuário.
+     * Recebendo como parâmetros dois objetos, um do tipo {@link Usuario} e 
+     * outro do tipo {@link PolicyManager}, cada um com seus devidos Ids setados,
+     * eles são inseridos no banco de dados.
+     *
+     * @param usr Objeto {@link Usuario} com o Id do usuário já setado.
+     * @param regra Objeto {@link PolicyManager} com o Id da regra setada.
+     */
     public void atribuiRegraUsr(Usuario usr, PolicyManager regra) {
 
         Database novo = new Database();
@@ -64,16 +82,32 @@ public class PolicyManager {
        
     }
 
-    public void atribuiRegraArq(Arquivo usr, PolicyManager regra) {
+    /**Método que atribui uma determinada regra a um determinado arquivo.
+     * Recebendo como parâmetros dois objetos, um do tipo {@link Arquivo} e 
+     * outro do tipo {@link PolicyManager}, cada um com seus devidos Ids setados,
+     * eles são inseridos no banco de dados.
+     * 
+     * @param arq Objeto {@link Arquivo} com o Id setado.
+     * @param regra Objeto {@link PolicyManager} com Id da regra setado.
+     */
+    public void atribuiRegraArq(Arquivo arq, PolicyManager regra) {
 
         Database novo = new Database();
-        novo.atribuirRegraArq(usr, regra);
+        novo.atribuirRegraArq(arq, regra);
         
         PDP autorizacao = new PDP();
         autorizacao.atualizaArquivosUsuarios();
 
     }
     
+    /**Método responsável pela exclusão de regras do sistema.
+     * Para deletar uma regra basta instanciar um objeto desta classe,
+     * setar o Id para o qual se deseja excluir a regra e chamar este método.
+     * Todas as dependencias dessa regra também serão excluidas, ou seja,
+     * se a regra está vinculada a algum usuário ou arquivo, esse vínculo será
+     * excluido.
+     *
+     */
     public void deletaRegra(){
     
         Database db = new Database();
@@ -88,6 +122,15 @@ public class PolicyManager {
     
     }
     
+    /**Método responsável por retirar a associação de uma regra a um determinado
+     * usuário. 
+     * Para realizar a operação basta instanciar um objeto desta classe,
+     * setar com o id da regra que deseja retirar, e chamar este método,
+     * passando como parâmetro um objeto do tipo {@link Usuario} com o Id
+     * setado.
+     *
+     * @param usr Objeto {@link Usuario} com o Id setado.
+     */
     public void removeRegraUsr(Usuario usr){
     
         Database novo = new Database();
@@ -97,7 +140,15 @@ public class PolicyManager {
         
     
     }
-    
+    /**Método responsável por retirar a associação de uma regra a um determinado
+     * arquivo. 
+     * Para realizar a operação basta instanciar um objeto desta classe,
+     * setar com o id da regra que deseja retirar, e chamar este método,
+     * passando como parâmetro um objeto do tipo {@link Arquivo} com o Id
+     * setado.
+     *
+     * @param arq Objeto {@link Arquivo} com o Id setado.
+     */
     public void removeRegraArq(Arquivo arq){
     
         Database novo = new Database();
@@ -107,6 +158,13 @@ public class PolicyManager {
         autorizacao.atualizaArquivosUsuarios();
     
     }
+    /** Método privado que é chamado pelo método criaRegra() para identificar
+     * os parametros corretos da regra a substituí-los.
+     * Este método que diferencia uma regra criada para um arquivo ou para um
+     * usuário, substituindo os nomes das tabelas nos lugares corretos da 
+     * consulta SQL.
+     *
+     **/
 
     private void atualizaRegra(String tipo) {
 
@@ -158,6 +216,27 @@ public class PolicyManager {
 
     }
 
+    /**Método responsável pela criação da regra de acesso no sistema.
+     * Ele recebe como parâmetro a regra que foi escrita pelo administrador
+     * e realiza algumas operações a fim de deixá-la em formato SQL para que 
+     * possa ser feita uma consulta ao banco de forma correta. Caso a regra
+     * possua operadores lógicos AND ou OR ela é subdividade em mais de uma
+     * regra para que cada uma seja processada de forma separada. 
+     * Uma verificação também é feita na regra para que seja garantido que 
+     * o atributo presente na regra realmente exista.
+     * 
+     * Ex: u.cargo = gerente AND u.permissao = normal 
+     * 
+     * Esta regra nos diz que somente usuários que tenham cargo de gerente E
+     * permissao normal podem acessar os arquivos que forem associados a ela.
+     * 
+     * a.tipo = aberto AND a.extensao = java
+     * 
+     * Esta regra nos diz que somente arquivos do tipo aberto E extensão java
+     * podem ser acessados pelo usuário associado a ela.
+     *
+     * @param regra Regra que foi escrita pelo administrador pela interface.
+     */
     public void criaRegra(String regra) {
 
         String[] result;
