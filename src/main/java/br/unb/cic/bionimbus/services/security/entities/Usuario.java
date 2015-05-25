@@ -16,9 +16,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-/**
+/**Classe que serve de abstração para o trabalho com usuários dentro do sistema.
+ * Esta classe contém os métodos de gerenciamento de usuários, bem como suas
+ * características.
+ * 
  *
- * @author heitor
+ * @author Heitor Henrique
  */
 public class Usuario {
 
@@ -26,15 +29,18 @@ public class Usuario {
     private String senha;
     private Integer id;
 
+    /**Construtor simples que apenas coloca os valores como nulos. 
+     *
+     */
     public Usuario() {
         this.id = null;
         this.nome = null;
         this.senha = null;
     }
 
-    /**
+    /**Construtor que já inicia um usuário com o seu valor de ID.
      *
-     * @param id
+     * @param id ID que o usuário deve receber
      */
     public Usuario(Integer id) {
         this.id = id;
@@ -73,6 +79,17 @@ public class Usuario {
         this.id = id;
     }
 
+    /**Método que cadastra um usuário na federação. Este cadastro contém apenas
+     * as informações simples como nome e senha, para que mais informações sejam
+     * adicionadas este método pode ser reescrito, ou então um novo método
+     * pode ser adicionado. 
+     * A senha é cadastrada no banco utilizando o PBKDF2.
+     * Algumas configurações iniciais são realizadas, como atributos cadastrados
+     * automaticamente, através do método {@link Usuario#configuraInicial()}.
+     *
+     * @param pessoa Objeto {@link Usuario} contendo os valores de nome e senha
+     * para cadastro.
+     */
     public void cadastraUsuario(Usuario pessoa) {
 
         Database cadastra = new Database();
@@ -95,6 +112,10 @@ public class Usuario {
 
     }
 
+    /**Método que retorna todos os usuários cadastrados no sistema.
+     *
+     * @return List-{@link Usuario}- Lista de pessoas cadastradas no sistema.
+     */
     public List<Usuario> selectPessoas() {
 
         List<Usuario> todasPessoas = null;
@@ -107,6 +128,12 @@ public class Usuario {
         return (todasPessoas);
     }
 
+    /**Método que retorna as regras no formato SQl referentes a um determinado
+     * usuário da federação.
+     *
+     * @return List-{@link PolicyManager}- lista de regras em SQL referentes a
+     * um determinado usuário.
+     */
     public List<PolicyManager> obterRegrasSQL() {
 
         List<PolicyManager> regras;
@@ -117,6 +144,12 @@ public class Usuario {
         return regras;
     }
 
+    /**Método que retorna as regras no formato natural (não SQl) referentes a 
+     * um determinado usuário da federação.
+     *
+     * @return List-{@link PolicyManager}- lista de regras em formato natural 
+     * (não SQL) referentes a um determinado usuário.
+     */
     public List<PolicyManager> obterRegras() {
 
         List<PolicyManager> regras;
@@ -127,6 +160,13 @@ public class Usuario {
         return regras;
     }
 
+    /**Método que realiza a primeira configuração de um novo usuário criado.
+     * O atributo permissão é setado como norma, padrão para todos os novos 
+     * usuários e a regra a.proprietário = 'nomeDoUsuário' é adicionada,
+     * para que ele possa ver todos os arquivos na qual ele é proprietário.
+     *
+     * @throws SQLException
+     */
     public void configuraInicial() throws SQLException {
 
         this.setId(this.getNome());
@@ -148,6 +188,10 @@ public class Usuario {
 
     }
 
+    /**Método para exclusão de um usuário do sistema. Todas as dependencias
+     * deste usuário, como seus atributos, também são excluídos.
+     *
+     */
     public void deletaUsuario() {
 
         Database db = new Database();
@@ -159,6 +203,13 @@ public class Usuario {
 
     }
 
+    /**Método para verificação da existência de um usuário. Como não pode
+     * haver dois usuários cadastrados com o mesmo nome, este método verifica
+     * se já existe algum com o mesmo nome.
+     *
+     * @return True se já existir um usuário com este nome e falso caso 
+     * contrário.
+     */
     public boolean existeUsuario() {
 
         Boolean existe;
@@ -171,6 +222,12 @@ public class Usuario {
 
     }
     
+    /**Método que atualiza a cache de arquivos que um usuário pode vizualizar.
+     * Este método deve ser chamado sempre que a cache fique inconsistente,
+     * ou seja, uma nova regra seja adicionada para um usuário, ou então um
+     * valor de atributo seja modificado ou excluido.
+     *
+     */
     public void atualizaArquivosUsuario(){
         
         Database novo = new Database();

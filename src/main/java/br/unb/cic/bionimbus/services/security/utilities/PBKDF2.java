@@ -15,7 +15,7 @@ import javax.crypto.spec.PBEKeySpec;
 
 /**
  *
- * @author heitor
+ * @author Desconhecido
  */
 public class PBKDF2 {
     

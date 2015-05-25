@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  *
- * @author heitor
+ * @author Heitor Henrique 
  */
 public class Database {
     

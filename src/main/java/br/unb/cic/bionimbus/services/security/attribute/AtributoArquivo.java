@@ -42,7 +42,7 @@ public class AtributoArquivo extends Atributo {
      * que o administrador ja cadastrou, ou os que ja foram cadastrados
      * automaticamente.
      *
-     * @return List-AtributoArquivo- Lista de todos atributos de arquivo.
+     * @return List-{@link AtributoArquivo}- Lista de todos atributos de arquivo.
      */
     public List<AtributoArquivo> selectAtributos(){
     

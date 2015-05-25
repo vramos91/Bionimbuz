@@ -39,7 +39,7 @@ public class AtributoUsuario extends Atributo {
      * que o administrador ja cadastrou, ou os que ja foram cadastrados
      * automaticamente.
      *
-     * @return List-AtributoUsuario- Lista de todos atributos de usuario.
+     * @return List-{@link AtributoUsuario}- Lista de todos atributos de usuario.
      */
     public List<AtributoUsuario> selectAtributos(){
     

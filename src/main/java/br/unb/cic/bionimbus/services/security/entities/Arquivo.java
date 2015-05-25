@@ -15,28 +15,38 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
+/**Classe que serve como abstração para o trabalho com os arquivos do sistema.
+ * Esses arquivos não necessariamente são os arquivos do tipo File do java,
+ * mas sim, uma abstração para que se torne mais fácil o trabalho de definição 
+ * de atributos e regras sobre os arquivos.
  *
- * @author heitor
+ * @author Heitor Henrique
  */
 public class Arquivo {
     
     private String nome;
     private Integer id;
     
+    /**Construtor padrão que apenas define o valores como nulos.
+     */
     public Arquivo(){
         this.id = null;
         this.nome = null;
     }
     
-    /**
+    /** Construtor que já define um Id para o arquivo a ser criado.
      *
-     * @param id
+     * @param id Id do arquivo que será criado.
      */
     public Arquivo(Integer id){
         this.id = id;
     }
     
+    /** Construtor que define um arquivo do sistema em função de um arquivo
+     * real passado como argumento.
+     *
+     * @param arq Arquivo que se deseja adicionar ao sistema.
+     */
     public Arquivo(File arq){
         this.cadastraArquivo(arq);
     }
@@ -60,13 +70,19 @@ public class Arquivo {
         return id;
     }
     
+    /**Método de configuração dos arquivos recém criados. Todo
+     * arquivo que é criado ele passa por uma configuração inicial que consiste
+     * na inserção de alguns atributos automaticamente, como por exemplo o tipo
+     * aberto ou fechado, seu tamanho e proprietário.
+     *
+     **/
     private void configura(File arq){
     
         this.getId(this.getNome());
         
         AtributoArquivo atributo = new AtributoArquivo();
         atributo.getId("tipo");
-        atributo.setValor("aberto");
+        atributo.setValor("fechado");
         atributo.cadastraAtributoNoArquivo(this, atributo);
         
         atributo.getId("tamanho");
@@ -80,6 +96,13 @@ public class Arquivo {
         
     
     }
+    
+    /**Método para o cadastro de arquivos no sistema.
+     * Todo arquivo na federação deve passar por este cadastro, para que seja
+     * reconhecido como um arquivo válido. Assim que é cadastrado ele também
+     * é configurado com alguns atributos automaticamente.
+     *
+    **/
     private void cadastraArquivo(File arq){
     
         Arquivo novoArquivo = new Arquivo();
@@ -94,6 +117,12 @@ public class Arquivo {
         autorizacao.atualizaArquivosUsuarios();
     
     }
+    
+    /**Método que seleciona todos os arquivos que pertencem atualmente à 
+     * federação.
+     *
+     * @return List-{@link Arquivo}- Lista de todos arquivos da federação.
+     */
     public List<Arquivo> selectArquivos(){
         
         List<Arquivo> todosArquivos = null;
@@ -106,6 +135,14 @@ public class Arquivo {
         }
         return (todosArquivos);
     }
+    
+    /**Método que retorna todos as regras em formato SQL que atualmente estão
+     * associadas a um determinado arquivo.
+     *
+     * @param db Conexão já aberta de um banco de dados.
+     * @return List-{@link PolicyManager}- Lista de todas regras de determinado
+     * arquivo.
+     */
     public List<PolicyManager> obterRegrasSQL(Database db){
     
         List<PolicyManager> regras;
@@ -116,6 +153,11 @@ public class Arquivo {
         return regras;
     }
     
+    /**Método que exclui o cadastro de um arquivo do sistema. Este método
+     * deve ser chamado sempre que um arquivo deixa de fazer parte da federação,
+     * pois só assim o serviço de segurança saberá da exclusão do arquivo.
+     *
+     */
     public void deletaArquivo(){
     
         Database db = new Database();
@@ -127,6 +169,12 @@ public class Arquivo {
     
     }
     
+    /**Método que retorna a lista de regras, em linguagem natural (não SQL),
+     * que estão associados a um arquivo.
+     *
+     * @return List-{@link PolicyManager}- Lista de todas regras de um arquivo 
+     * em linguagem natural (não SQL).
+     */
     public List<PolicyManager> obterRegras(){
     
         List<PolicyManager> regras;
