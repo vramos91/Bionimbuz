@@ -6,9 +6,14 @@
 
 package br.unb.cic.bionimbus.services.security.utilities;
 
-/**
+/**Classe que faz a sessão assim que o usuário loga no sistema. Esta classe
+ * utiliza o padrão singleton, que faz com que ela seja instanciada apenas 
+ * umas vez durante toda a execução do programa, que é justamente no momento
+ * do login. Na sessão, são mantidos os dados do usuário como nome e id para
+ * que outros serviços possam utilizar.
+ * 
  *
- * @author heitor
+ * @author Heitor Henrique
  */
 public class Session {
     
@@ -17,10 +22,16 @@ public class Session {
     private Integer id;
     private static Session INSTANCIA = null;
     
+    
     private Session(){
     
     }
     
+    /**Método que retorna a instância atual em execução no programa, e caso
+     * seja nula cria uma nova.
+     *
+     * @return Instância atual da sessão de usuário.
+     */
     public static synchronized Session getInstance(){
     
         if (INSTANCIA == null){

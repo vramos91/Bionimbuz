@@ -231,7 +231,7 @@ public class Usuario {
     public void atualizaArquivosUsuario(){
         
         Database novo = new Database();
-        novo.deletarArquivoUsr(this.getId());
+        novo.deletarArquivoUsuario(this.getId());
     
         this.setNome(this.getId());
         PDP autorizacao = new PDP();
