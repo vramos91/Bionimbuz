@@ -121,10 +121,16 @@ public final class SimpleShell {
                 commandMap.get(command.first).setOriginalParamLine(line); // para o caso de precisar
 
                 // eval
+                
+                long tempoInicio = System.currentTimeMillis();  
+                
                 String result = commandMap.get(command.first).execute(command.second);
 
+                
                 // print
                 System.out.println(result);
+                
+                System.out.println("Tempo Total: "+(System.currentTimeMillis()-tempoInicio));  
             } catch (Exception e) {
                 e.printStackTrace();
             }

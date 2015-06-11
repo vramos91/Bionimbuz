@@ -318,14 +318,14 @@ public class Interface {
      */
     private void verTodosArq(){
         
-        List<Arquivo> arquivos;
+        List<String> arquivos;
         
         PDP autorizacao = new PDP();
         
         arquivos = autorizacao.mostraArquivos();
         
-        for (Arquivo arq: arquivos){
-            System.out.println(arq.getNome());
+        for (String arq: arquivos){
+            System.out.println(arq);
         }
     }
     
@@ -617,7 +617,7 @@ public class Interface {
      * 
      * Os valores são passados a um objeto {@link AtributoArquivo} que possui
      * um método 
-     * {@link AtributoArquivo#cadastraAtributoNoArquivo(Arquivo,AtributoArquivo}
+     * {@link AtributoArquivo#cadastraAtributoNoArquivo(Arquivo,AtributoArquivo)}
      *
      */
     

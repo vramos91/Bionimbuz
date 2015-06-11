@@ -593,7 +593,7 @@ public class Database {
     
     /**Método que retorna a lista de todos as regras cadastradas no sistema.
      *
-     * @return List-{@link PolicyManager- Lista de todas as regras.
+     * @return List-{@link PolicyManager}- Lista de todas as regras.
      * @throws SQLException
      */
     public List<PolicyManager> selectTodasRegras() throws SQLException {
@@ -708,7 +708,7 @@ public class Database {
      * um determinado usuário.
      *
      * @param id ID do usuário que se deseja saber as regras.
-     * @return List-{@link PolicyManager- Lista de todas regras em formato
+     * @return List-{@link PolicyManager}- Lista de todas regras em formato
      * não SQl associados a um usuário.
      */
     public List<PolicyManager> obterRegrasUsr(Integer id){
@@ -811,7 +811,7 @@ public class Database {
      * um determinado arquivo.
      *
      * @param id ID do arquivo que se deseja saber as regras.
-     * @return List-{@link PolicyManager- Lista de todas regras em formato
+     * @return List-{@link PolicyManager}- Lista de todas regras em formato
      * não SQl associados a um arquivo.
      */
     public List<PolicyManager> obterRegrasArq(Integer id){
@@ -1559,9 +1559,9 @@ public class Database {
      * arquivos.
      * @return List-{@link Arquivo}- Lista de arquivos que o usuário tem acesso.
      */
-    public List<Arquivo> selectArquivosUsr(Integer idusuario) {
+    public List<String> selectArquivosUsr(Integer idusuario) {
         Connection con = null;
-	List<Arquivo> listArquivo = new ArrayList<Arquivo>();
+	List<String> listArquivo = new ArrayList<String>();
 	try {
             con = getConnection();
 
@@ -1569,12 +1569,8 @@ public class Database {
             prepared.setInt(1, idusuario);
             ResultSet resultSet = prepared.executeQuery();
            
-            while (resultSet.next()) {
-                Arquivo arquivoTmp = new Arquivo();
-                arquivoTmp.setId(resultSet.getInt("idarquivo"));
-                arquivoTmp.setNome(resultSet.getString("nome"));
-                
-                listArquivo.add(arquivoTmp);
+            while (resultSet.next()) {   
+                listArquivo.add(resultSet.getString("nome"));
             }
 
             } catch (SQLException e) {

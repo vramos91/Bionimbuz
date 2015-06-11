@@ -3,6 +3,7 @@
 import br.unb.cic.bionimbus.avro.gen.BioProto;
 import br.unb.cic.bionimbus.client.shell.Command;
 import br.unb.cic.bionimbus.client.shell.SimpleShell;
+import br.unb.cic.bionimbus.services.security.PDP;
 import com.google.common.base.Joiner;
 
 public class ListFiles implements Command {
@@ -21,8 +22,9 @@ public class ListFiles implements Command {
             throw new IllegalStateException("This command should be used with an active connection!");
         }
         BioProto proxy = shell.getProxy();
+        PDP arquivos = new PDP();
        
-       return Joiner.on("\n").join(proxy.listFilesName());
+       return Joiner.on("\n").join(arquivos.mostraArquivos());
     }
 
     @Override

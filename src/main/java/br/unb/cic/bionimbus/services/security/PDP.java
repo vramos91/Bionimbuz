@@ -218,14 +218,13 @@ public class PDP {
      *
      * @return Lista de arquivos que o usuário está autorizado a acessar.
      */
-    public List<Arquivo> mostraArquivos() {
-        List<Arquivo> arquivos;
-        
+    public List<String> mostraArquivos() {
+       
         Database db = new Database();
         Session sessao = Session.getInstance();
-        arquivos = db.selectArquivosUsr(sessao.getId());
+        db.selectArquivosUsr(sessao.getId());
         
-        return arquivos;
+        return db.selectArquivosUsr(sessao.getId());
     }
     
     /**Método que atualiza a cache com os arquivos que os usuários podem acessar.

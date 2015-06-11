@@ -63,12 +63,12 @@ public abstract class Atributo {
        
 
     /**Método que verifica se um determinado atributo existe, ou seja, se ele
-     * já foi previamente cadastrado.
+     * ja foi previamente cadastrado.
      * 
      * Cada classe deve implementar a sua própria verificação de atributo, 
      * pois eles são cadastrados em tabelas diferentes no banco de dados.
      *
-     * @return
+     * @return true se o atributo existe e false caso contrario.
      */
     public abstract boolean verificaAtributo();
     
