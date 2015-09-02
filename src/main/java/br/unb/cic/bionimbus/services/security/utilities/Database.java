@@ -107,7 +107,7 @@ public class Database {
     public Connection getConnection() throws SQLException {
 		
         Connection con = null;
-	con = DriverManager.getConnection("jdbc:mysql://localhost/seguranca?user=root&password=");		
+	con = DriverManager.getConnection("jdbc:mysql://localhost/seguranca?user=root&password=Zoonimbus1");		
         //System.out.println("Conectado");
         return con;
     }    
@@ -136,7 +136,7 @@ public class Database {
     public void getConnection2() throws SQLException {
 		
         Connection con = null;
-	conexao = DriverManager.getConnection("jdbc:mysql://localhost/seguranca?user=root&password=");		
+	conexao = DriverManager.getConnection("jdbc:mysql://localhost/seguranca?user=root&password=Zoonimbus1");		
        // System.out.println("Conectado");
     }    
     
